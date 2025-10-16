@@ -12,4 +12,6 @@ nltk
 tqdm
 joblib
 tensorflow
+gunicorn
+
 
