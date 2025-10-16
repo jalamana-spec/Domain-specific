@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"><title>Candidate Login</title></head>
+<body style="font-family:Poppins;background:linear-gradient(135deg,#00c6ff,#0072ff);height:100vh;display:flex;align-items:center;justify-content:center;margin:0">
+  <div style="background:#fff;padding:30px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12);width:360px">
+    <h2 style="color:#0072ff;text-align:center">Candidate Search</h2>
+
+    <!-- ✅ Flash message area -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div style="
+            background:{% if category == 'success' %}#d4edda{% elif category == 'danger' %}#f8d7da{% elif category == 'warning' %}#fff3cd{% else %}#d1ecf1{% endif %};
+            color:#155724;
+            border:1px solid #c3e6cb;
+            padding:10px;
+            border-radius:6px;
+            margin:10px 0;
+            text-align:center;">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" action="/search_jobs">
+      <input name="location" placeholder="Location" style="width:100%;padding:10px;margin:8px 0"><br>
+      <input name="qualification" placeholder="Qualification (e.g., B.Tech)" style="width:100%;padding:10px;margin:8px 0"><br>
+      <input name="skills" placeholder="Skills (comma separated e.g., Python, ML)" style="width:100%;padding:10px;margin:8px 0"><br>
+      <button type="submit" style="width:100%;padding:10px;background:#0072ff;color:#fff;border:none;border-radius:6px">Search Jobs</button>
+    </form>
+  </div>
+</body>
+</html>

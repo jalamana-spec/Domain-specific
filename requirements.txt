@@ -1,0 +1,15 @@
+Flask
+Flask-SQLAlchemy
+psycopg2-binary
+pandas
+numpy
+scikit-learn
+spacy
+sentence-transformers
+pdfplumber
+python-docx
+nltk
+tqdm
+joblib
+tensorflow
+

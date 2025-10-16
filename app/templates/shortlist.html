@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>HR Dashboard - Smart CV Screening</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #f6f9ff;
+      margin: 0;
+      padding: 30px;
+    }
+    h2 {
+      color: #0072ff;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+    thead {
+      background: #0072ff;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    tr:hover {
+      background: #f4f9ff;
+      transition: 0.2s ease-in-out;
+    }
+    .score-bar {
+      width: 100px;
+      height: 10px;
+      border-radius: 5px;
+      background: #e0e0e0;
+      position: relative;
+      margin: 0 auto;
+    }
+    .score-fill {
+      height: 10px;
+      border-radius: 5px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: linear-gradient(90deg, #0072ff, #00c6ff);
+    }
+    .hired {
+      background-color: #d4f8d4;
+      font-weight: 600;
+      color: #0a5e0a;
+    }
+    .rejected {
+      background-color: #f8d4d4;
+      font-weight: 600;
+      color: #b30000;
+    }
+    .download-btn {
+      background: #0072ff;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 20px;
+      float: right;
+      transition: 0.2s;
+    }
+    .download-btn:hover {
+      background: #0056cc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>HR Dashboard - Shortlisted Candidates</h2>
+
+    {% if results %}
+      <a href="{{ url_for('download_results') }}" class="download-btn">⬇ Download Results</a>
+      <table>
+        <thead>
+          <tr>
+            <th>Candidate</th>
+            <th>Email</th>
+            
+            <th>Total Score</th>
+            <th>Skills</th>
+            <th>Qualification</th>
+            
+            <th>Experience</th>
+            <th>Embedding</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in results %}
+          <tr class="{{ 'hired' if r.status == 'Shortlisted' else 'rejected' }}">
+            <td>{{ r.candidate.name }}</td>
+            <td>{{ r.candidate.email }}</td>
+            
+            
+            <!-- Score bar visualization -->
+            <td>
+              {{ "%.2f"|format(r.score) }}%
+              <div class="score-bar">
+                <div class="score-fill" style="width: {{ r.score }}%;"></div>
+              </div>
+            </td>
+
+            <td>{{ r.skills_match }}</td>
+            <td>{{ r.qualification_match }}</td>
+            <td>{{ r.experience_match }}</td>
+            <td>{{ r.embedding_match }}</td>
+            <td>{{ r.status }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p style="text-align:center;color:#666">No shortlisted candidates available yet.</p>
+    {% endif %}
+  </div>
+</body>
+</html>
