@@ -13,5 +13,7 @@ tqdm
 joblib
 tensorflow
 gunicorn
+beautifulsoup4
+
 
 
