@@ -98,24 +98,34 @@ def extract_experience(text):
 
     # 3️⃣ Default if nothing found
     return 0
-def extract_certifications(text):
-    """Extract common certifications."""
-    cert_keywords = ["aws", "azure", "gcp", "pmp", "oracle", "google certified", "certificate", "certified", "ccna", "scrum"]
-    return [c for c in cert_keywords if c in text.lower()]
+
+import re
+
+import re
+import re
 
 def extract_qualification(text):
-    """Normalize qualification levels."""
-    QUAL_EQUIVALENTS = {
-        "phd": ["phd", "doctorate", "ph.d"],
-        "master": ["m.tech", "msc", "m.e", "mca", "master", "postgraduate", "pg"],
-        "bachelor": ["btech", "b.e", "b.sc", "bca", "bachelor", "undergraduate", "graduate", "degree"]
-    }
-    text_l = text.lower()
-    for level, keywords in QUAL_EQUIVALENTS.items():
-        for k in keywords:
-            if k in text_l:
-                return level
-    return "unknown"
+    """
+    Extract and normalize educational qualification from text.
+    Handles cases like 'B.Tech / M.Tech', 'Masters in CS', etc.
+    Returns: 'bachelor', 'master', 'phd', or 'unknown'
+    """
+    if not text:
+        return "unknown"
+
+    text_l = text.lower().replace(".", "").replace(" ", "")
+
+    # 🔹 Check for highest qualification first
+    if re.search(r"(phd|doctorate|doctorofphilosophy|dr)", text_l):
+        return "phd"
+    elif re.search(r"(mtech|me|msc|mca|ms|master|postgraduate|pg)", text_l):
+        return "master"
+    elif re.search(r"(btech|be|bsc|bca|bachelor|undergraduate|graduate|degree)", text_l):
+        return "bachelor"
+    else:
+        return "unknown"
+
+
 
 # -------------------- SBERT Embedding --------------------
 _EMB_MODEL = None
